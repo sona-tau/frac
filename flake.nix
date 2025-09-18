@@ -27,6 +27,7 @@
 					# Add any you need here
 					packages = with pkgs; [
 						gnumake
+						clang-tools
 					];
 
 					# Set any environment variables for your dev shell

@@ -27,9 +27,9 @@ struct Color {
 };
 
 class Point {
-	public:
-		long double x;
-		long double y;
+      public:
+	long double x;
+	long double y;
 
 	Point(long double x, long double y);
 };
@@ -44,11 +44,9 @@ template <size_t width, size_t height> class Canvas {
 	double y_min;
 	std::array<Color, width * height> pixels;
 	Canvas(double min_x, double max_x, double min_y, double max_y)
-		: x_max(max_x)
-		, x_min(min_x)
-		, y_max(max_y)
-		, y_min(min_y)
-	{  }
+	    : x_max(max_x), x_min(min_x), y_max(max_y), y_min(min_y)
+	{
+	}
 
 	Canvas(Point p, long double size)
 	{
@@ -67,7 +65,7 @@ template <size_t width, size_t height> class Canvas {
 		for (auto const& color : pixels) {
 			auto c = color.to_rgb();
 			uint8_t rgb[3] = {c.Red, c.Green, c.Blue};
-			f << rgb[0]  << rgb[1]  << rgb[2] ;
+			f << rgb[0] << rgb[1] << rgb[2];
 		}
 		f.close();
 	}
