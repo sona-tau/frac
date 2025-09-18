@@ -65,7 +65,7 @@ template <size_t width, size_t height> class Canvas {
 		for (auto const& color : pixels) {
 			auto c = color.to_rgb();
 			uint8_t rgb[3] = {c.Red, c.Green, c.Blue};
-			f << rgb[0] << rgb[1] << rgb[2];
+			f << rgb[1] << rgb[2] << rgb[3];
 		}
 		f.close();
 	}
