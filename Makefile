@@ -4,7 +4,6 @@ FILES=src/*.cpp
 OUT=.build/a.out
 
 build:
-	mkdir -p .build
 	$(CXX) $(CXXFLAGS) $(FILES) -o $(OUT)
 
 all: build
