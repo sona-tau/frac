@@ -1,49 +1,27 @@
-#include "mandelbrot.hpp"
-#include <algorithm>
-#include <array>
-#include <cmath>
-#include <fstream>
-#include <vector>
+#include "frac.hpp"
 
-int main()
-{
-	// static auto canvas = Canvas<2000, 2000>(-2.0, 0.47, -1.235, 1.235);
-	static auto canvas =
-	    Canvas<1500, 1500>(Point(-1.4021230042960, 0), 0.000'000'000'01);
+int main() {
+	const auto mandelbrot_func = [&](std::complex<long double> coordinate) -> Color {
+		long double x = 0.0;
+		long double y = 0.0;
+		long double x_squared = 0.0;
+		long double y_squared = 0.0;
 
-	static auto histogram = [] {
-		std::array<Color, 255> ret_arr{};
-		const auto begin = Color(182, 0.00, 0.0);
-		const auto end = Color(1.0, 1.00, 1.0);
-		auto t = 1;
-		for (auto& c : ret_arr)
-			c = begin.lerp(end, (double)t / 255.0), ++t;
+		std::uint64_t max_iter = 0;
+		for (int i = 0; i < 20000 && std::islessequal(x_squared + y_squared, 4.0L); ++i) {
 
-		return ret_arr;
-	}();
-
-	auto mandelbrot = [](std::complex<long double> coordinate) {
-		const auto max_iteration = 20000ul;
-		auto x = 0.0L;
-		auto y = 0.0L;
-		auto x_squared = 0.0L;
-		auto y_squared = 0.0L;
-		auto iteration = 0u;
-
-		while (std::islessequal((x_squared + y_squared), 4) &&
-		       (iteration < max_iteration)) {
 			y = fma(2 * x, y, coordinate.imag());
 			x = x_squared - y_squared + coordinate.real();
 			x_squared = x * x;
 			y_squared = y * y;
-			iteration++;
+			max_iter = i;
 		}
 
-		return histogram[iteration & 0xFF];
+		return histogram_dy[max_iter & 0xFF];
 	};
 
-	canvas.construct(mandelbrot);
-	canvas.save_to_ppm("image.ppm");
+	static auto canvas = Canvas<1800, 1800>(Point(-1.459979, 0), 0.000'01);
+	canvas.construct(mandelbrot_func).save_to_ppm("image.ppm");
 
 	return 0;
 }

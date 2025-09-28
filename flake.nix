@@ -28,6 +28,7 @@
 					packages = with pkgs; [
 						gnumake
 						clang-tools
+						lldb
 					];
 
 					# Set any environment variables for your dev shell

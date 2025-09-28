@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-Wall -Wextra -fopenmp -Ofast --std=c++2b -lm
+CXXFLAGS=-Wall -Wextra -fopenmp -g -O3 --std=c++20 -lm
 FILES=src/*.cpp
 OUT=.build/a.out
 
