@@ -30,12 +30,13 @@ RGB Color::to_rgb() const {
 		cube_hue < 4.0 ? std::array{0.0, tmp, chroma} :
 		cube_hue < 5.0 ? std::array{tmp, 0.0, chroma} :
 		/* otherwise  */ std::array{chroma, 0.0, tmp};
-	if (cube_hue = 6) components = std::array{0.0,0.0,0.0};
+	if (cube_hue == 6) components = std::array{0.0,0.0,0.0};
 
 	double match = luma - (0.3 * components[0] + 0.59 * components[1] + 0.11 * components[2]);
 	for (double& component : components)
 		component = round((component + match) * 255);
 
+	return RGB(components[0], components[1], components[2]);
 }
 
 uint8_t Color::red() const {
