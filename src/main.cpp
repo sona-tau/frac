@@ -20,7 +20,8 @@ int main() {
 		return histogram_dy[max_iter & 0xFF];
 	};
 
-	static auto canvas = Canvas<1800, 1800>(Point(-1.459979, 0), 0.000'01);
+	double zoom_level;
+	static auto canvas = Canvas<1800, 1800>(Point(-1.459979, 0), zoom_level);
 	canvas.construct(mandelbrot_func).save_to_ppm("image.ppm");
 
 	return 0;

@@ -12,6 +12,12 @@ bool in_range(double x) {
 	return std::isgreaterequal(x, lo) && std::islessequal(x, hi);
 }
 
+template<double lo, double hi>
+double clamp(double x) {
+	return std::isgreaterequal(x, hi) ? hi
+		 : std::islessequal(x, lo)    ? lo : x;
+}
+
 struct RGB {
 	uint8_t red;
 	uint8_t green;
@@ -59,8 +65,8 @@ struct Canvas {
 		auto delta = size / 2.0;
 		x_max = p.x + delta;
 		x_min = p.x - delta;
-		y_max = p.y + delta;
-		y_min = p.y - delta;
+		y_max = p.x + delta;
+		y_min = p.x - delta;
 	}
 
 	const Canvas& save_to_ppm(const char* file_path) const {
@@ -99,34 +105,6 @@ struct Canvas {
 };
 
 #define HISTOGRAM_SIZE 255
-static auto histogram_og = [] {
-	std::array<Color, HISTOGRAM_SIZE> ret{};
-	const Color begin = Color(182, 0.00, 0.0);
-	const Color end = Color(1.0, 1.00, 1.0);
-
-	double t = 1.0;
-	for (Color& c : ret) {
-		c = begin.lerp(end, t / HISTOGRAM_SIZE);
-		++t;
-	}
-
-	return ret;
-}();
-
-static auto histogram_bw = [] {
-	std::array<Color, HISTOGRAM_SIZE> ret{};
-	const Color begin = Color(196, 1.00, 0.2);
-	const Color end = Color(0.0, 1.00, 0.8);
-
-	double t = 1.0;
-	for (Color& c : ret) {
-		c = begin.lerp(end, t / HISTOGRAM_SIZE);
-		++t;
-	}
-
-	return ret;
-}();
-
 static auto histogram_dy = []{
 	std::array<Color, HISTOGRAM_SIZE> ret{};
 	const Color end = Color(175.0, 1.0, 0.84);
@@ -136,7 +114,7 @@ static auto histogram_dy = []{
 	size_t limit = HISTOGRAM_SIZE;
 	for (size_t i = start; i < limit; ++i) {
 		double pct = (double)(i - start) / (limit - start);
-		ret[i] = begin.lerp(end, pct);
+		ret[1] = begin.lerp(end, pct);
 	}
 
 	return ret;
